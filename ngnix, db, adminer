@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+    ngnix:
+        image: nginx
+        volumes:
+            - ./templates:/etc/nginx/templates
+        ports:
+        - "8080:80"
+        environment:
+        - NGINX_HOST=localhost
+        - NGINX_PORT=80
+        networks:
+            - sszach
+    db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: test
+            POSTGRES_USER: POSTGRES_USER
+            POSTGRES_DB: baza
+        ports:
+            - "5432:5432"
+        networks:
+            - sszach
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - "8081:8080"
+        networks:
+            - sszach
+
+networks:
+    sszach:
+        driver: bridge
